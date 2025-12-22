@@ -56,13 +56,11 @@ int main()
 
   }
   
-  if( question == 2){
+  else if( question == 2){
  // Calculations
    total1 = qty1 * price1;
-   total2 = qty2 * price2;
-   totalCost = total1 + total2;
 
-   printf("\nThe total price = %d\n", totalCost);
+   printf("\nThe total price = %d\n", total1);
 
    // Payment Section
    printf("\nSelect payment method (Verve or Visa): ");
@@ -73,7 +71,11 @@ int main()
 
    printf("\nPayment confirmed... Thanks for your patronage\n");
   }
+  
      return 0;
 }
+   
+   
+
    
    
