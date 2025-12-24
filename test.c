@@ -72,8 +72,19 @@ int main()
    printf("\nPayment confirmed... Thanks for your patronage\n");
   }
   
+   else if( question > 2 ){
+   printf("\nERROR_CANNOT_RUN_CODE....");
+     
+  }
+  
+  else if( question < 1){
+  printf("\nERROR_CANNOT_RUN_CODE....");
+  }
      return 0;
 }
+   
+   
+
    
    
 
