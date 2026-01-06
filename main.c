@@ -2,40 +2,40 @@
 
 int main()
 {
-     float examgrade =0;
+     float score =0;
     
     printf("What was your score? ");
-    scanf("%f", &examgrade);
+    scanf("%f", &score);
 
-    if (examgrade >= 101){
+    if (score >= 101){
     printf("\n*");
           }
       
-    else if (examgrade >= 75){ 
+    else if (score >= 75 && score <= 100){ 
     printf("\nYour score grade is A");
           }
           
-    else if (examgrade >= 65){
+    else if (score >= 65 && score <= 74 ){
     printf("\nYour score grade is B");
           }
           
-    else if (examgrade >= 50){
+    else if (score >= 50 && score <= 64){
     printf("\nYour score grade is C");
           }
           
-    else if (examgrade >= 45){
+    else if (score >= 45 && score <= 49){
     printf("\nYour score grade is D");
           }
           
-    else if (examgrade >= 40){
+    else if (score >= 40 && score <= 44){
     printf("\nYour score grade is E");
           }
           
-    else if (examgrade >= 0){ 
+    else if (score >= 0 && score <=39){ 
     printf("\nYour score grade is F");
           }
 
-    else if (examgrade < 0){
+    else if (score < 0){
     printf("\n*");
           }
        
