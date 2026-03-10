@@ -19,7 +19,6 @@
   int id_of_good_to_purchase;
   int quantity_of_good_requested;
   int x;
-  //int current_goods;
   int found;
   
   printf("Number of goods received? ");
@@ -58,7 +57,6 @@
   printf("\nUnit price of goods - ");
   scanf("%d", &g[i].unit_price);
   printf("~Unit Price of good is: %d\n",g[i].unit_price);
- // g[i].id = id;
   
    printf("\n******************\n\n");
   }
@@ -72,10 +70,6 @@
   //step 1 loop through array
 
   for( x = 0; x < item; x++){ 
-
-   // current_goods == x + 1;
-
-   // g[x].id_of_good_available == current_goods;
 
   if(g[x].id_of_good_available == id_of_good_to_purchase){
     
