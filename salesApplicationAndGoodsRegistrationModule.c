@@ -15,22 +15,21 @@
   int main()
 { 
   struct goods g[MAX];
-  int item, i;
+  int item;
   int id_of_good_to_purchase;
   int quantity_of_good_requested;
-  int x;
   int found;
   
   printf("Number of goods received? ");
   scanf("%d", &item );
   
   if(item > 20){
-     printf("\nERROR_SOME_INFORMATIONS_BELOW_MIGHT_BE_WRONG....\n");
+     printf("\nERORR .....MAXIMUM GOODS THAT CAN BE REGISTERED IS 20....\n");
   }
   
   else if(item <= 20){
   
-  for (i = 0; i < item; i++){
+  for ( int i = 0; i < item; i++){
       
       
    g[i].id_of_good_available = i + 1;
@@ -45,7 +44,7 @@
   printf("~Name of good is: %s\n",g[i].name);
   
   if(strlen(g[i].name) > 50){
-     printf("\nERROR_SOME_INFORMATIONS_BELOW_MIGHT_BE_WRONG....\n");
+     printf("\nERROR..... NAME OF GOODS CANNOT SURPASS 50 CHARACTERS...\n");
   }
   
   else if(strlen(g[i].name) <= 50){
@@ -69,7 +68,7 @@
 
   //step 1 loop through array
 
-  for( x = 0; x < item; x++){ 
+  for(int x = 0; x < item; x++){ 
 
   if(g[x].id_of_good_available == id_of_good_to_purchase){
     
