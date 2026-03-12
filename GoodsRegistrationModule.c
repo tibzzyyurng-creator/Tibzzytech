@@ -29,7 +29,6 @@ int main()
   printf("\nUnit price of goods - ", i + 1);
   scanf("%d", &price);
   }
-  
-  printf("\nGood(s) listed above have been registered successfully..\n");
+
 	return 0;
 }

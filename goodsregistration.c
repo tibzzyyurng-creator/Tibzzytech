@@ -61,38 +61,15 @@
   }
   
   }
+
+  for (int x = 0; x < item; x++){
+     printf("\nRecord of good %d\n", x + 1);
+     printf("\nName of good = %s\n", g[x].name);
+     printf("\nQuantity of %s = %d\n",g[x].name, g[x].quantity_of_good);
+     printf("\nUnit Price of %s = %d\n",g[x].name, g[x].unit_price);
+     }
+      printf("\n<Good(s) listed above have been registered successfully..>\n");
   
-   printf("\nID of good you want to buy? ");
-   scanf("%d", &id_of_good_to_purchase );
 
-   for(int x = 0; x < item; x++){ 
-
-   if(g[x].id_of_good_available == id_of_good_to_purchase){
-    
-       printf("\nHow many do you want to buy? ");
-       scanf("%d", &quantity_of_good_requested);
-       
-       if(quantity_of_good_requested > g[x].quantity_of_good){
-           printf("\nInsufficient availability of goods");
-           }
-      
-       else{
-            printf("\nThe number of goods you requested is valid");
-
-            printf("\nThe number of %s remaining in stock = %d ",  g[x].name, g[x].quantity_of_good - quantity_of_good_requested );
-            
-            }   
-            found = 1;
-            
-            break;
-          }  
-        
-      }  
-
-        if (found == 0){
-           printf("\nInvalid id... Input a valid id ...... Some informations below might be wrong!!!");
-       }  
-   
-  }
-	return 0;
+  return 0;
 }
