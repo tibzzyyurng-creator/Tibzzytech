@@ -19,6 +19,7 @@
   int id_of_good_to_purchase;
   int quantity_of_good_requested;
   int found;
+  int number_of_good_to_purchase;
   
   printf("Number of goods received? ");
   scanf("%d", &item );
@@ -62,12 +63,23 @@
   
   }
   
-   printf("\nID of good you want to buy? ");
-   scanf("%d", &id_of_good_to_purchase );
+   printf("How many goods do you want to purchase? ");
+   scanf("%d", &number_of_good_to_purchase);
 
-   for(int x = 0; x < item; x++){ 
+   if(number_of_good_to_purchase > 20){
+     printf("\nERORR .....MAXIMUM GOODS THAT CAN BE PURCHASED IS 20....\n");
+  }
+  
+  else if(number_of_good_to_purchase <= 20){
 
-   if(g[x].id_of_good_available == id_of_good_to_purchase){
+    for ( int G = 0; G < number_of_good_to_purchase; G++){
+  
+      printf("\nID of good you want to buy? ");
+      scanf("%d", &id_of_good_to_purchase );
+
+     for(int x = 0; x < item; x++){ 
+
+     if(g[x].id_of_good_available == id_of_good_to_purchase){
     
        printf("\nHow many do you want to buy? ");
        scanf("%d", &quantity_of_good_requested);
@@ -77,9 +89,9 @@
            }
       
        else{
-            printf("\nThe number of goods you requested is valid");
+            printf("\nThe number of goods you requested is valid\n");
 
-            printf("\nThe number of %s remaining in stock = %d ",  g[x].name, g[x].quantity_of_good - quantity_of_good_requested );
+            printf("\nThe number of %s remaining in stock = %d \n",  g[x].name, g[x].quantity_of_good - quantity_of_good_requested );
             
             }   
             found = 1;
@@ -92,6 +104,10 @@
         if (found == 0){
            printf("\nInvalid id... Input a valid id ...... Some informations below might be wrong!!!");
        }  
+
+      }
+
+   }
    
   }
 	return 0;
