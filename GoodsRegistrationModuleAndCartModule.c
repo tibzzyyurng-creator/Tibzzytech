@@ -64,16 +64,17 @@ int main()
   int id_of_good_to_purchase;
   int found;
   int number_of_good_to_purchase;
+  int max_of_goods_to_purchase = 20;
 
   printf("Number of goods received? ");
   scanf("%d", &item);
 
-  if (item > 20)
+  if (item > max_of_goods_to_purchase)
   {
     printf("\nERORR .....MAXIMUM GOODS THAT CAN BE REGISTERED IS 20....\n");
   }
 
-  else if (item <= 20)
+  else if (item <= max_of_goods_to_purchase)
   {
 
     for (int goods_to_be_registered= 0; goods_to_be_registered < item; goods_to_be_registered++)
@@ -110,25 +111,25 @@ int main()
     printf("How many goods do you want to purchase? ");
     scanf("%d", &number_of_good_to_purchase);
 
-    if (number_of_good_to_purchase > 20)
+    if (number_of_good_to_purchase > max_of_goods_to_purchase)
     {
       printf("\nERORR .....MAXIMUM GOODS THAT CAN BE PURCHASED iS 20....\n");
     }
 
-    else if (number_of_good_to_purchase <= 20)
+    else if (number_of_good_to_purchase <= max_of_goods_to_purchase)
     {
       for (int available_goods = 0; available_goods < number_of_good_to_purchase; available_goods++)
       {
         printf("\nID of good you want to buy? ");
         scanf("%d", &id_of_good_to_purchase);
 
-        struct goods * search_by_id (struct goods * available_goods, int id_of_good_available);
+        struct goods * search_by_id; 
       }
     }
     printf("\nSN  ID  GOOD  UNITPRICE  QUANTITY  TOTAL AMOUNT");
     for (int print_receipt = 0; print_receipt < number_of_good_to_purchase; print_receipt++)
     {
-      printf("\n%d   %d   %s     %d         %d         %d   ", print_receipt + 1, stock[print_receipt].id_of_good_available, stock[print_receipt].name, stock[print_receipt].unit_price, stock[print_receipt].quantity_of_good, stock[print_receipt].unit_price * cart[print_receipt].quantity_of_good_requested);
+      printf("\n%d   %d   %s     %d         %d        %d   ", print_receipt + 1, stock[print_receipt].id_of_good_available, stock[print_receipt].name, stock[print_receipt].unit_price, stock[print_receipt].quantity_of_good, stock[print_receipt].unit_price * cart[print_receipt].quantity_of_good_requested);
     }
   }
   return 0;
