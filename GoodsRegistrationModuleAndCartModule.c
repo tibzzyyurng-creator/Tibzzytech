@@ -18,43 +18,23 @@ struct cart_module
 
 };
 
-struct goods * search_by_id (struct goods * available_goods, int id_of_good_available)
+struct search_by_id
 {
   int item;
   int id_of_good_to_purchase;
-  int found;
-  struct goods stock[MAX];
-  struct cart_module cart[MAX];
-
-  for (int search_by_id = 0; search_by_id < item; search_by_id++)
- {
-   if (stock[search_by_id].id_of_good_available == id_of_good_to_purchase)
-   {
-      printf("\nHow many do you want to buy? ");
-      scanf("%d", &cart[search_by_id].quantity_of_good_requested);
-
-      if (cart[search_by_id].quantity_of_good_requested > stock[search_by_id].quantity_of_good)
-      {
-        printf("\nERROR...Insufficient availability of goods...SOME INFORMATIONS BELOW MIGHT BE WRONG");
-      }
-      else
-      {
-       printf("\nThe number of goods you requested is valid\n");
-
-       printf("\nThe number of %s remaining in stock = %d \n", stock[search_by_id].name, stock[search_by_id].quantity_of_good - cart[search_by_id].quantity_of_good_requested);
-      }
-      found = 1;
-      break;
-   }
-
-    if (found == 0)
-    {
-      printf("\nInvalid id... Input a valid id ...... Some informations below might be wrong!!!");
-    }
- }
-
 };
 
+struct goods* search_by_id(struct goods* available_goods, int size, int id)
+{
+  for (int i = 0; i < size; i++)
+  {
+    if((available_goods + i)->id_of_good_available == id)
+    {
+      return (available_goods + i);
+    }
+  }
+    return NULL;
+}
 
 int main()
 {
@@ -62,16 +42,17 @@ int main()
   struct cart_module cart[MAX];
   int item;
   int id_of_good_to_purchase;
-  int found;
   int number_of_good_to_purchase;
   int max_of_goods_to_purchase = 20;
+  int quantity_of_goods_requested;
+  int search_id;
 
   printf("Number of goods received? ");
   scanf("%d", &item);
 
   if (item > max_of_goods_to_purchase)
   {
-    printf("\nERORR .....MAXIMUM GOODS THAT CAN BE REGISTERED IS 20....\n");
+    printf("\nERORR .....MAXIMUM GOODS THAT CAN BE REGISTERED IS 20....");
   }
 
   else if (item <= max_of_goods_to_purchase)
@@ -81,55 +62,83 @@ int main()
     {
       stock[goods_to_be_registered].id_of_good_available = goods_to_be_registered + 1;
 
-      printf("\nGood %d\n", goods_to_be_registered + 1);
+      printf("\nGood %d", goods_to_be_registered + 1);
 
-      printf("\nID of good = %d\n", stock[goods_to_be_registered].id_of_good_available);
+      printf("\nID of good = %d", stock[goods_to_be_registered].id_of_good_available);
 
       printf("\nName of good - ");
       scanf("%s", stock[goods_to_be_registered].name);
-      printf("~Name of good is: %s\n", stock[goods_to_be_registered].name);
-
+      
       if (strlen(stock[goods_to_be_registered].name) > 50)
       {
-        printf("\nERROR..... NAME OF GOODS CANNOT SURPASS 50 CHARACTERS...\n");
+       printf("\nERROR..... NAME OF GOODS CANNOT SURPASS 50 CHARACTERS...\n");
       }
 
       else if (strlen(stock[goods_to_be_registered].name) <= 50)
       {
         printf("\nQuantity of good - ");
         scanf("%d", &stock[goods_to_be_registered].quantity_of_good);
-        printf("~Quantity of good is: %d\n", stock[goods_to_be_registered].quantity_of_good);
+       
 
         printf("\nUnit price of goods - ");
         scanf("%d", &stock[goods_to_be_registered].unit_price);
-        printf("~Unit Price of good is: %d\n", stock[goods_to_be_registered].unit_price);
+        
 
-        printf("\n******************\n\n");
+        printf("\n******************\n");
       }
     }
 
-    printf("How many goods do you want to purchase? ");
+    printf("\nHow many goods do you want to purchase? ");
     scanf("%d", &number_of_good_to_purchase);
 
-    if (number_of_good_to_purchase > max_of_goods_to_purchase)
+    if (number_of_good_to_purchase > item)
     {
-      printf("\nERORR .....MAXIMUM GOODS THAT CAN BE PURCHASED iS 20....\n");
+      printf("ERORR .........\n");
     }
 
-    else if (number_of_good_to_purchase <= max_of_goods_to_purchase)
+    else if (number_of_good_to_purchase <= item)
     {
-      for (int available_goods = 0; available_goods < number_of_good_to_purchase; available_goods++)
-      {
-        printf("\nID of good you want to buy? ");
-        scanf("%d", &id_of_good_to_purchase);
+     for (int available_goods = 0; available_goods < number_of_good_to_purchase; available_goods++)
+     {    
+       printf("\nID of good you want to buy? ");
+       scanf("%d", &search_id);
 
-        struct goods * search_by_id; 
+       struct goods *result = search_by_id(stock, item, search_id);
+       
+        if (result != NULL)
+        {
+          printf("item found\n"); 
+
+          printf("Available Quantity: %d\n", result->quantity_of_good);
+
+          printf("Unit Price: %d\n", result->unit_price);
+
+          printf("How many do you want to buy?");
+          scanf("%d", &quantity_of_goods_requested);
+
+         if (quantity_of_goods_requested <= result->quantity_of_good)
+         {
+           printf("The number of goods requested is valid\n");
+            printf("The number of goods remaining in stock is %d", result->quantity_of_good - quantity_of_goods_requested);
+         }
+         else
+           {
+             printf("\nInsufficient availability of goods\n");
+           }
+        } 
+
+         else
+         {
+           printf("\nInvalid id... Input a valid id ...... Some informations below might be wrong!!!");
+         } 
       }
-    }
-    printf("\nSN  ID  GOOD  UNITPRICE  QUANTITY  TOTAL AMOUNT");
-    for (int print_receipt = 0; print_receipt < number_of_good_to_purchase; print_receipt++)
-    {
-      printf("\n%d   %d   %s     %d         %d        %d   ", print_receipt + 1, stock[print_receipt].id_of_good_available, stock[print_receipt].name, stock[print_receipt].unit_price, stock[print_receipt].quantity_of_good, stock[print_receipt].unit_price * cart[print_receipt].quantity_of_good_requested);
+
+     printf("\nSN  ID  GOOD  UNITPRICE  QUANTITY  TOTAL AMOUNT");
+     for (int print_receipt = 0; print_receipt < number_of_good_to_purchase; print_receipt++)
+     {
+       printf("\n%d   %d   %s     %d         %d        %d   ", print_receipt + 1, stock[print_receipt].id_of_good_available, stock[print_receipt].name, stock[print_receipt].unit_price, quantity_of_goods_requested, stock[print_receipt].unit_price * quantity_of_goods_requested);
+     } 
+      
     }
   }
   return 0;
