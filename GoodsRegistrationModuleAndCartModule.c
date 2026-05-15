@@ -28,7 +28,16 @@ struct cart_module
     int unit_price;
 };
 
-struct goods* search_by_id(struct goods stock[], int size, int id)
+struct SalesRep
+{
+    char id[32];
+    char name[64];
+};
+
+struct goods* search_by_id(
+    struct goods stock[],
+    int size,
+    int id)
 {
     for (int i = 0; i < size; i++)
     {
@@ -41,7 +50,36 @@ struct goods* search_by_id(struct goods stock[], int size, int id)
     return NULL;
 }
 
-enum error_code_t register_goods(struct goods stock[], int *item)
+enum error_code_t register_sales_rep(
+    struct SalesRep *rep)
+{
+    if (rep == NULL)
+    {
+        return INVALID_ARGUMENT;
+    }
+
+    printf("Enter Sales Rep ID: ");
+    scanf("%31s", rep->id);
+
+    if (strlen(rep->id) == 0)
+    {
+        return INVALID_ARGUMENT;
+    }
+
+    printf("Enter Sales Rep Name: ");
+    scanf("%63s", rep->name);
+
+    if (strlen(rep->name) == 0)
+    {
+        return INVALID_ARGUMENT;
+    }
+
+    return OK;
+}
+
+enum error_code_t register_goods(
+    struct goods stock[],
+    int *item)
 {
     if (stock == NULL || item == NULL)
     {
@@ -51,40 +89,59 @@ enum error_code_t register_goods(struct goods stock[], int *item)
     printf("Number of goods received? ");
     scanf("%d", item);
 
-    if (*item <= 0 || *item > MAX)
+    if (*item > MAX || *item <= 0)
     {
+        printf("\nERROR ..... MAXIMUM GOODS THAT CAN BE REGISTERED IS 20....\n");
         return OUT_OF_BOUND;
     }
 
-    for (int i = 0; i < *item; i++)
+    for (int goods_to_be_registered = 0;
+         goods_to_be_registered < *item;
+         goods_to_be_registered++)
     {
-        stock[i].id_of_good_available = i + 1;
+        stock[goods_to_be_registered].id_of_good_available =
+            goods_to_be_registered + 1;
 
-        printf("\nGood %d", i + 1);
+        printf("\nGood %d",
+               goods_to_be_registered + 1);
 
         printf("\nID of good = %d",
-               stock[i].id_of_good_available);
+               stock[goods_to_be_registered]
+               .id_of_good_available);
 
         printf("\nName of good - ");
-        scanf("%49s", stock[i].name);
 
-        if (strlen(stock[i].name) >= 50)
+        scanf("%49s",
+              stock[goods_to_be_registered]
+              .name);
+
+        if (strlen(stock[goods_to_be_registered]
+            .name) > 50)
         {
+            printf("\nERROR..... NAME OF GOODS CANNOT SURPASS 50 CHARACTERS...\n");
             return OUT_OF_BOUND;
         }
 
         printf("\nQuantity of good - ");
-        scanf("%d", &stock[i].quantity_of_good);
 
-        if (stock[i].quantity_of_good < 0)
+        scanf("%d",
+              &stock[goods_to_be_registered]
+              .quantity_of_good);
+
+        if (stock[goods_to_be_registered]
+            .quantity_of_good < 0)
         {
             return INVALID_ARGUMENT;
         }
 
         printf("\nUnit price of goods - ");
-        scanf("%d", &stock[i].unit_price);
 
-        if (stock[i].unit_price < 0)
+        scanf("%d",
+              &stock[goods_to_be_registered]
+              .unit_price);
+
+        if (stock[goods_to_be_registered]
+            .unit_price < 0)
         {
             return INVALID_ARGUMENT;
         }
@@ -108,31 +165,44 @@ enum error_code_t purchase_goods(
         return INVALID_ARGUMENT;
     }
 
-    int number_of_goods;
+    int number_of_good_to_purchase;
+    int quantity_of_goods_requested;
     int search_id;
-    int quantity_requested;
 
     printf("\nHow many goods do you want to purchase? ");
-    scanf("%d", &number_of_goods);
 
-    if (number_of_goods <= 0 ||
-        number_of_goods > item)
+    scanf("%d",
+          &number_of_good_to_purchase);
+
+    if (number_of_good_to_purchase > item ||
+        number_of_good_to_purchase <= 0)
     {
+        printf("ERROR .........\n");
         return OUT_OF_BOUND;
     }
 
-    for (int i = 0; i < number_of_goods; i++)
+    for (int available_goods = 0;
+         available_goods < number_of_good_to_purchase;
+         available_goods++)
     {
         printf("\nID of good you want to buy? ");
+
         scanf("%d", &search_id);
 
         struct goods *result =
-            search_by_id(stock, item, search_id);
+            search_by_id(
+                stock,
+                item,
+                search_id);
 
         if (result == NULL)
         {
+            printf("\nInvalid id... Input a valid id ...... Some informations below might be wrong!!!");
+
             return INVALID_ID;
         }
+
+        printf("item found\n");
 
         printf("Available Quantity: %d\n",
                result->quantity_of_good);
@@ -140,91 +210,155 @@ enum error_code_t purchase_goods(
         printf("Unit Price: %d\n",
                result->unit_price);
 
-        printf("How many do you want to buy? ");
-        scanf("%d", &quantity_requested);
+        printf("How many do you want to buy?");
 
-        if (quantity_requested <= 0)
+        scanf("%d",
+              &quantity_of_goods_requested);
+
+        if (quantity_of_goods_requested <= 0)
         {
             return INVALID_ARGUMENT;
         }
 
-        if (quantity_requested >
+        if (quantity_of_goods_requested >
             result->quantity_of_good)
         {
+            printf("\nInsufficient availability of goods\n");
+
             return INSUFFICIENT_STOCK;
         }
 
-        cart[i].id =
+        cart[available_goods].id =
             result->id_of_good_available;
 
-        strcpy(cart[i].name, result->name);
+        strcpy(cart[available_goods].name,
+               result->name);
 
-        cart[i].quantity =
-            quantity_requested;
+        cart[available_goods].quantity =
+            quantity_of_goods_requested;
 
-        cart[i].unit_price =
+        cart[available_goods].unit_price =
             result->unit_price;
 
         result->quantity_of_good -=
-            quantity_requested;
+            quantity_of_goods_requested;
+
+        printf("The number of goods requested is valid\n");
+
+        printf("The number of goods remaining in stock is %d\n",
+               result->quantity_of_good);
     }
 
-    *purchased_count = number_of_goods;
+    *purchased_count =
+        number_of_good_to_purchase;
 
     return OK;
 }
 
 void print_receipt(
     struct cart_module cart[],
-    int purchased_count)
+    int purchased_count,
+    struct SalesRep rep)
 {
-    printf("\nSN  ID  GOOD  UNITPRICE  QUANTITY  TOTAL");
+    int grand_total = 0;
 
-    for (int i = 0; i < purchased_count; i++)
+    printf("\n====================================");
+
+    printf("\n           SALES RECEIPT");
+
+    printf("\n====================================");
+
+    printf("\nSales Rep ID   : %s",
+           rep.id);
+
+    printf("\nSales Rep Name : %s",
+           rep.name);
+
+    printf("\n\nSN  ID  GOOD  UNITPRICE  QUANTITY  TOTAL AMOUNT");
+
+    for (int print_receipt = 0;
+         print_receipt < purchased_count;
+         print_receipt++)
     {
+        int total =
+            cart[print_receipt].unit_price *
+            cart[print_receipt].quantity;
+
+        grand_total += total;
+
         printf("\n%d   %d   %s     %d         %d        %d",
-               i + 1,
-               cart[i].id,
-               cart[i].name,
-               cart[i].unit_price,
-               cart[i].quantity,
-               cart[i].unit_price * cart[i].quantity);
+               print_receipt + 1,
+               cart[print_receipt].id,
+               cart[print_receipt].name,
+               cart[print_receipt].unit_price,
+               cart[print_receipt].quantity,
+               total);
     }
+
+    printf("\n------------------------------------");
+
+    printf("\nGrand Total: %d",
+           grand_total);
+
+    printf("\n====================================\n");
 }
 
 int main()
 {
     struct goods stock[MAX];
+
     struct cart_module cart[MAX];
 
+    struct SalesRep rep;
+
     int item = 0;
+
     int purchased_count = 0;
 
     enum error_code_t result;
 
-    result = register_goods(stock, &item);
+    result =
+        register_sales_rep(&rep);
 
     if (result != OK)
     {
-        printf("\nRegistration failed with error code: %d\n",
-               result);
+        printf("\nSales rep registration failed\n");
+
         return 0;
     }
 
-    result = purchase_goods(
-        stock,
-        item,
-        cart,
-        &purchased_count);
+    result =
+        register_goods(
+            stock,
+            &item);
+
+    if (result != OK)
+    {
+        printf("\nGoods registration failed with error code: %d\n",
+               result);
+
+        return 0;
+    }
+
+    result =
+        purchase_goods(
+            stock,
+            item,
+            cart,
+            &purchased_count);
 
     if (result != OK)
     {
         printf("\nPurchase failed with error code: %d\n",
                result);
+
         return 0;
     }
 
-    print_receipt(cart, purchased_count);
+    print_receipt(
+        cart,
+        purchased_count,
+        rep);
 
     return 0;
 }
